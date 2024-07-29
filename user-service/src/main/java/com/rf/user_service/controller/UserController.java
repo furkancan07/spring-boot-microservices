@@ -1,5 +1,6 @@
 package com.rf.user_service.controller;
 
+import com.rf.user_service.dto.LoginRequest;
 import com.rf.user_service.dto.RegisterUserRequest;
 import com.rf.user_service.dto.UserDto;
 import com.rf.user_service.entity.User;
@@ -30,5 +31,9 @@ public class UserController {
     @GetMapping("email/{email}")
     public ResponseEntity<User> getUser(@PathVariable String email){
         return ResponseEntity.ok(userService.findByEmail(email));
+    }
+    @GetMapping ("/authenticate")
+    ResponseEntity<UserDto> authenticate(@RequestBody LoginRequest request){
+        return ResponseEntity.ok(userService.authenticate(request));
     }
 }
