@@ -25,4 +25,10 @@ public class AuthService {
     public void logout(String token){
         tokenService.logout(token);
     }
+
+    public User verifyToken(String token) {
+        User user=tokenService.verifyToken(token);
+        if (user==null) throw new RuntimeException("Token bulunamadş");
+        return user;
+    }
 }

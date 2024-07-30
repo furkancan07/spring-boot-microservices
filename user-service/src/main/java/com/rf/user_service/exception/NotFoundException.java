@@ -4,4 +4,5 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException(String type){
         super(type+" bulunamadi.Tekrar Dene ...");
     }
+
 }

@@ -29,10 +29,10 @@ public class UserController {
     }
 
     @GetMapping("email/{email}")
-    public ResponseEntity<User> getUser(@PathVariable String email){
-        return ResponseEntity.ok(userService.findByEmail(email));
+    public ResponseEntity<UserDto> getUser(@PathVariable String email){
+        return ResponseEntity.ok(userService.getUserForEmail(email));
     }
-    @GetMapping ("/authenticate")
+    @PostMapping ("/authenticate")
     ResponseEntity<UserDto> authenticate(@RequestBody LoginRequest request){
         return ResponseEntity.ok(userService.authenticate(request));
     }

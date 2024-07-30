@@ -4,6 +4,7 @@ import com.rf.user_service.dto.LoginRequest;
 import com.rf.user_service.dto.RegisterUserRequest;
 import com.rf.user_service.dto.UserDto;
 import com.rf.user_service.entity.User;
+import com.rf.user_service.exception.AuthenticateException;
 import com.rf.user_service.exception.NotFoundException;
 import com.rf.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +35,12 @@ public class UserService {
     }
     public UserDto authenticate(LoginRequest request){
         User user=findByEmail(request.getEmail());
-        if(!encoder.matches(request.getPassword(), user.getPassword())) throw new RuntimeException("Şifreler uyuşmuyor");
+        if(!encoder.matches(request.getPassword(), user.getPassword())) throw new AuthenticateException();
         return UserDto.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
     }
 
+    public UserDto getUserForEmail(String email) {
+        User user=findByEmail(email);
+        return UserDto.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
+    }
 }

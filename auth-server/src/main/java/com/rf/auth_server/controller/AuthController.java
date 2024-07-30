@@ -38,5 +38,9 @@ public class AuthController {
     public ResponseEntity<User> get(@PathVariable Long id){
         return ResponseEntity.ok(client.getUser(id));
     }
+    @GetMapping("/verify")
+    public ResponseEntity<User> verify(@CookieValue(name = "login-token",required = false) String token){
+        return ResponseEntity.ok(authService.verifyToken(token));
+    }
 
 }
