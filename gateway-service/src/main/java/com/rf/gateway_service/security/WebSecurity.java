@@ -12,9 +12,13 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.session.ReactiveSessionRegistry;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.SessionLimit;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -28,11 +32,14 @@ public class WebSecurity {
                 .csrf(csrf -> csrf.disable())
                 .headers(h->h.disable())
                 .authorizeExchange(authorize -> authorize
-                        .pathMatchers("/api/v1/product/**").authenticated() // Bu endpoint'ler kimlik doğrulaması gerektirir
-                        .anyExchange().permitAll() // Diğer tüm endpoint'ler herkese açıktır
+                        .pathMatchers("/api/v1/product","/api/v1/product/update/**","/api/v1/product/create/**","/api/v1/product/delete/**").authenticated()
+                        .anyExchange().permitAll()
                 )
-
+                .httpBasic(x->x.disable())
+                .formLogin(x->x.disable())
+                .logout(x->x.disable())
                 .addFilterBefore(filter,SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
+
 }
