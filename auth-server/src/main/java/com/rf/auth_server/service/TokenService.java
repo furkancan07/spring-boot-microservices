@@ -1,6 +1,7 @@
 package com.rf.auth_server.service;
 
 import com.rf.auth_server.clients.UserServiceClient;
+import com.rf.auth_server.exception.AuthorizationException;
 import com.rf.auth_server.model.Token;
 import com.rf.auth_server.model.User;
 import com.rf.auth_server.repository.TokenRepository;
@@ -34,7 +35,7 @@ public class TokenService {
     }
 
     private Token getToken(String tok){
-        Token token=tokenRepository.findByToken(tok).orElseThrow(()->new RuntimeException("Hata"));
+        Token token=tokenRepository.findByToken(tok).orElseThrow(()->new AuthorizationException());
         return token;
     }
 }

@@ -42,5 +42,9 @@ public class AuthController {
     public ResponseEntity<User> verify(@CookieValue(name = "login-token",required = false) String token){
         return ResponseEntity.ok(authService.verifyToken(token));
     }
+    @GetMapping("/authorized")
+    public ResponseEntity<Long> getIdOfLoggedInUser(@CookieValue(name = "login-token",required = false)String token) {
+        return ResponseEntity.ok(authService.getIdOfLoggedInUser(token));
+    }
 
 }

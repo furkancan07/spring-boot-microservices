@@ -7,6 +7,7 @@ import com.rf.product_server.dto.ProductDto;
 import com.rf.product_server.dto.UpdateProductRequest;
 import com.rf.product_server.dto.User;
 import com.rf.product_server.entity.Product;
+import com.rf.product_server.error.exception.AuthorizationException;
 import com.rf.product_server.error.exception.NotFoundException;
 import com.rf.product_server.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,11 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final UserService userService;
+    private final AuthService authService;
     public ProductDto addProduct(AddProductRequest request,Long userId) {
         User user=userService.findByUserId(userId);
-        if(user==null) throw new NotFoundException("");
+        if(user==null) throw new NotFoundException(userId+" id numaralı kullanıcı");
+        if(authService.getIdOfLoggedInUser()!=userId) throw new AuthorizationException();
         Product product=Product.builder().description(request.getDescription()).
                 name(request.getName()).userId(userId).price(request.getPrice()).build();
         productRepository.save(product);
@@ -31,6 +34,7 @@ public class ProductService {
 
     public ProductDto updateProduct(UpdateProductRequest request,Long productId) {
         Product product=findById(productId);
+        if(product.getUserId()!= authService.getIdOfLoggedInUser()) throw new AuthorizationException();
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
@@ -41,6 +45,7 @@ public class ProductService {
 
     public String deleteProduct(Long id) {
         Product product=findById(id);
+        if(product.getUserId()!=authService.getIdOfLoggedInUser()) throw new AuthorizationException();
         return "Ürün Başari ile Silindi";
     }
     protected Product findById(Long id){

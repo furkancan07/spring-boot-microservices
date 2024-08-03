@@ -3,6 +3,7 @@ package com.rf.gateway_service.security;
 import com.rf.gateway_service.client.TokenService;
 import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -26,6 +27,8 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
 public class WebSecurity {
 
     private final Filter filter;
+
+    private final CustomAuthenticationEntryPoint entryPoint;
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
@@ -35,9 +38,7 @@ public class WebSecurity {
                         .pathMatchers("/api/v1/product","/api/v1/product/update/**","/api/v1/product/create/**","/api/v1/product/delete/**").authenticated()
                         .anyExchange().permitAll()
                 )
-                .httpBasic(x->x.disable())
-                .formLogin(x->x.disable())
-                .logout(x->x.disable())
+                .httpBasic(x->x.authenticationEntryPoint(entryPoint))
                 .addFilterBefore(filter,SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }

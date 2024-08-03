@@ -1,5 +1,6 @@
 package com.rf.product_server.error.custom;
 
+import com.rf.product_server.error.exception.AuthorizationException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
         switch (response.status()) {
             case 400:
                 return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Geçersiz İstek");
+            case 401 : return new AuthorizationException();
             case 404:
                 return new ResponseStatusException(HttpStatus.NOT_FOUND, "Kullanıcı Bulunamadı");
             case 405:

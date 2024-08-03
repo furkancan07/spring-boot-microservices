@@ -2,6 +2,7 @@ package com.rf.gateway_service.security;
 
 import com.rf.gateway_service.client.TokenService;
 import com.rf.gateway_service.model.User;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -47,6 +48,15 @@ public class Filter implements WebFilter {
             var cookie = cookies.getFirst("login-token");
             if (cookie != null && cookie.getValue() != null && !cookie.getValue().isEmpty()) {
                 return cookie.getValue();
+            }
+            var sessionToken = cookies.getFirst("SESSION");
+            if (sessionToken != null && sessionToken.getValue() != null && !sessionToken.getValue().isEmpty()) {
+                exchange.getResponse().addCookie(ResponseCookie.from("SESSION", "")
+                        .path("/")
+                        .maxAge(0)
+                        .httpOnly(true)
+                        .build());
+                return null;
             }
         }
         return null;

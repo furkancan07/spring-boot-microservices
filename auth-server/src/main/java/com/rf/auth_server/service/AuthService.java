@@ -4,6 +4,8 @@ import com.rf.auth_server.clients.UserServiceClient;
 import com.rf.auth_server.dto.AuthDto;
 import com.rf.auth_server.dto.DtoConverter;
 import com.rf.auth_server.dto.LoginRequest;
+import com.rf.auth_server.exception.AuthorizationException;
+import com.rf.auth_server.exception.LoginException;
 import com.rf.auth_server.model.Token;
 import com.rf.auth_server.model.User;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class AuthService {
     private final DtoConverter converter;
     public AuthDto login(LoginRequest request) {
         User user =client.authenticate(request);
-        if(user ==null) throw new RuntimeException("Email veya şifre yanliş");
+        if(user ==null) throw new LoginException();
         Token token=tokenService.createToken(user.getId());
         AuthDto authDto=AuthDto.builder().token(token.getToken()).user(user).build();
         return authDto;
@@ -28,7 +30,14 @@ public class AuthService {
 
     public User verifyToken(String token) {
         User user=tokenService.verifyToken(token);
-        if (user==null) throw new RuntimeException("Token bulunamadş");
+        if (user==null) throw new AuthorizationException();
         return user;
+    }
+
+    public Long getIdOfLoggedInUser(String token) {
+        User user=tokenService.verifyToken(token);
+        if (user==null) throw new AuthorizationException();
+        return user.getId();
+
     }
 }
