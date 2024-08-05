@@ -46,6 +46,7 @@ public class ProductService {
     public String deleteProduct(Long id) {
         Product product=findById(id);
         if(product.getUserId()!=authService.getIdOfLoggedInUser()) throw new AuthorizationException();
+        productRepository.deleteById(id);
         return "Ürün Başari ile Silindi";
     }
     protected Product findById(Long id){
@@ -65,4 +66,14 @@ public class ProductService {
         return ProductDto.builder().user(userService.findByUserId(product.getUserId())).name(product.getName()).price(product.getPrice())
                 .description(product.getDescription()).id(product.getId()).build();
     }
+    public void deleteByUserId(Long userId){
+        List<Product> products=productRepository.findAll();
+        for (Product product : products){
+            if(product.getUserId().equals(userId)){
+                productRepository.delete(product);
+            }
+        }
+
+    }
+
 }

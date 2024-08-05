@@ -2,7 +2,6 @@ package com.rf.auth_server.service;
 
 import com.rf.auth_server.clients.UserServiceClient;
 import com.rf.auth_server.dto.AuthDto;
-import com.rf.auth_server.dto.DtoConverter;
 import com.rf.auth_server.dto.LoginRequest;
 import com.rf.auth_server.exception.AuthorizationException;
 import com.rf.auth_server.exception.LoginException;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final TokenService tokenService;
     private final UserServiceClient client;
-    private final DtoConverter converter;
+
     public AuthDto login(LoginRequest request) {
         User user =client.authenticate(request);
         if(user ==null) throw new LoginException();

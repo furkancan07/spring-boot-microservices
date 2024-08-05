@@ -8,6 +8,7 @@ import com.rf.user_service.exception.AuthenticateException;
 import com.rf.user_service.exception.NotFoundException;
 import com.rf.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
+    private final KafkaTemplate kafkaTemplate;
     public UserDto register(RegisterUserRequest request) {
         if(repository.existsByEmail(request.getEmail())){
             throw new RuntimeException("Kullanici zaten kayitli");
@@ -42,5 +44,11 @@ public class UserService {
     public UserDto getUserForEmail(String email) {
         User user=findByEmail(email);
         return UserDto.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
+    }
+    public void deleteUser(Long id){
+        repository.deleteById(id);
+        kafkaTemplate.send("user-delete-event",id);
+
+        System.out.println("Kullanıcı Silindi");
     }
 }

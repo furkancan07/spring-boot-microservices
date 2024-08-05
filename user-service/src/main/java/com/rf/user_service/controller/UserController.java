@@ -22,6 +22,11 @@ public class UserController {
    }
     // güncelleme
     // silme
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok("Silindi");
+    }
     // kullanıcı getirme
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id){

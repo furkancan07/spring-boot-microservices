@@ -45,5 +45,11 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getProductListByUserId(@PathVariable Long userId){
         return ResponseEntity.ok( productService.getProductListByUserId(userId));
     }
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<Void> deleteProductsByUserId(@PathVariable Long userId) {
+        productService.deleteByUserId(userId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

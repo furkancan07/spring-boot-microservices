@@ -14,14 +14,14 @@ public class AuthService {
         this.service = service;
         this.request = request;
     }
-    public Long getIdOfLoggedInUser(){
+    protected Long getIdOfLoggedInUser(){
         String token=getToken();
         if(token==null) return null;
         Long id=service.getIdOfLoggedInUser(token);
         if(id==null) return null;
         return id;
     }
-    public String getToken(){
+    private String getToken(){
         Cookie[] cookies=request.getCookies();
         if(cookies!=null){
             for (Cookie cookie : cookies){
