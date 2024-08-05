@@ -7,7 +7,7 @@ Bu projeyi mikroservisleri öğrenmek amacıyla geliştirdim. Güvenlik işlemle
 
 Bu projede kullanılan ana teknolojiler ve araçlar şunlardır:
 
-- **Docker**: Mikroservislerin container içinde çalıştırılmasını sağlayan platform.
+- **Docker**: Kafkayı kurmak için kullandım
 
 - **Apache Kafka**: Servisler arasında asenkron veri iletimi ve mesajlaşma için kullanılan dağıtık bir yayın-abone sistemidir.
 - **Spring Boot**: Java tabanlı mikroservislerin geliştirilmesi için kullanılan framework.
