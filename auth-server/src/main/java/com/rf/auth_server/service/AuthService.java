@@ -37,6 +37,5 @@ public class AuthService {
         User user=tokenService.verifyToken(token);
         if (user==null) throw new AuthorizationException();
         return user.getId();
-
     }
 }

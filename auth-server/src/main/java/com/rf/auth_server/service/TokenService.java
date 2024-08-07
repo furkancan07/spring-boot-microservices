@@ -38,4 +38,5 @@ public class TokenService {
         Token token=tokenRepository.findByToken(tok).orElseThrow(()->new AuthorizationException());
         return token;
     }
+
 }

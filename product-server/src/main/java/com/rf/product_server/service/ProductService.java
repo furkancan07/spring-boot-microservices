@@ -45,7 +45,7 @@ public class ProductService {
 
     public String deleteProduct(Long id) {
         Product product=findById(id);
-        if(product.getUserId()!=authService.getIdOfLoggedInUser()) throw new AuthorizationException();
+        if(!product.getUserId().equals(authService.getIdOfLoggedInUser())) throw new AuthorizationException();
         productRepository.deleteById(id);
         return "Ürün Başari ile Silindi";
     }
