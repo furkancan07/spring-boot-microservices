@@ -22,12 +22,7 @@ public class KafkaConsumerService {
         System.out.println(record.value());
         Long id=objectMapper.convertValue(record.value(),Long.class);
         productService.deleteByUserId(id);
-
-
     }
-    private void deleteProductsBelongingToUserId(Long id){
-productService.deleteByUserId(id);
-        System.out.println("Kullanıcılar silindi");
-    }
+
 
 }
