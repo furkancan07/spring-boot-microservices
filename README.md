@@ -18,6 +18,7 @@ Bu projede kullanılan ana teknolojiler ve araçlar şunlardır:
 - **Eureka Discovery Service**: Servis keşfi ve kayıt yönetimi için kullanılan bir Netflix OSS projesidir.
 - **Feign Client**: HTTP istemcisi olarak kullanılan ve mikroservisler arası iletişimi kolaylaştıran bir kütüphane.
 - **Kafka UI**: Kafka cluster'larını izlemek ve yönetmek için kullanılan kullanıcı arayüzü.
+- **Unit Test**: Yazılımın küçük birimlerini (fonksiyon veya metot) izole ederek test eden ve doğru çalışıp çalışmadığını kontrol eden otomatik testlerdir.
 
 
 ## Servisler ve Kullanılan Teknolojiler
